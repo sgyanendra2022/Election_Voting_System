@@ -1,10 +1,41 @@
-# 🗳️ Election Voting System
+# Election Voting System
 
 A client-side digital voting portal built with HTML, CSS, and JavaScript. Users can register, log in, cast a vote, and view live results — all stored in the browser's `localStorage`.
 
 ---
 
-## �️ Tech Stack
+## Screenshots
+
+### Landing Page
+![Landing Page](screenshots/Index.html.png)
+
+### Sign In
+![Sign In](screenshots/Signin.png)
+
+### Sign Up
+![Sign Up](screenshots/Signup.png)
+
+### Main Front Page
+![Main Front Page](screenshots/Main%20Front%20page.png)
+
+### Main Front
+![Main Front](screenshots/Main%20Front.png)
+
+### Cast Vote
+![Cast Vote](screenshots/Cast%20Vote.png)
+
+### Vote Confirmation
+![Confirmation](screenshots/Confirmation.png)
+
+### Confirmation Slip
+![Confirmation Slip](screenshots/Confirmation%20Slip.png)
+
+### Live Results
+![Live Results](screenshots/Live%20Result.png)
+
+---
+
+## Tech Stack
 
 | Technology | Usage |
 |-----------|-------|
@@ -17,7 +48,7 @@ A client-side digital voting portal built with HTML, CSS, and JavaScript. Users 
 
 ---
 
-## ✨ Features
+## Features
 
 - User registration with full validation (Voter ID, Aadhaar, age check, OTP)
 - Login / Logout with session management
@@ -29,7 +60,7 @@ A client-side digital voting portal built with HTML, CSS, and JavaScript. Users 
 
 ---
 
-## 📄 Pages
+## Pages
 
 | File | Description |
 |------|-------------|
@@ -43,7 +74,7 @@ A client-side digital voting portal built with HTML, CSS, and JavaScript. Users 
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 Election_Voting_System/
@@ -71,34 +102,36 @@ Election_Voting_System/
 ├── INC.png
 ├── AAP.png
 ├── SP.png
-└── Nota.jpg
+├── Nota.jpg
+│
+└── screenshots/            # Add your screenshots here
 ```
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 No installation needed. Just open `index.html` in any modern browser.
 
 ```bash
-git clone https://github.com/your-username/Election_Voting_System.git
+git clone https://github.com/sgyanendra2022/Election_Voting_System.git
 cd Election_Voting_System
 # Open index.html in your browser
 ```
 
-### Quick demo
+### Quick Demo
 
 1. Click **Sign Up** and fill the form
    - Voter ID: any 10 characters e.g. `ABC1234567`
    - Aadhaar: any 12 digits e.g. `123456789012`
-   - OTP is optional — click Send OTP, copy the code from the alert, verify or skip
-2. **Login** with your email and password
-3. Click **Vote Now** → select a party → confirm → get receipt
+   - OTP is optional — click Send OTP, copy the code from the alert, then verify
+2. **Login** with your registered email and password
+3. Click **Vote Now** → select a party → confirm → get your receipt
 4. Click **View Live Results**
 
 ---
 
-## 💾 Data Storage
+## Data Storage
 
 All data lives in `localStorage`:
 
@@ -108,11 +141,11 @@ All data lives in `localStorage`:
 | `evs_session` | Currently logged-in user |
 | `evs_votes` | Vote tally `{ BJP: 3, AAP: 2, ... }` |
 
-> ⚠️ This is a frontend-only demo. Data is not shared across devices and passwords are stored in plain text. A production system would need a backend, hashed passwords, and a real database.
+> This is a frontend-only demo. Data is not shared across devices and passwords are stored in plain text. A production system would need a backend, hashed passwords, and a real database.
 
 ---
 
-## 🏛️ Participating Parties
+## Participating Parties
 
 | Party | Full Name |
 |-------|-----------|
@@ -124,13 +157,13 @@ All data lives in `localStorage`:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License — free to use, modify, and distribute.
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Gyanendra Singh**  
 Built as a frontend demo project for learning and portfolio purposes.  
