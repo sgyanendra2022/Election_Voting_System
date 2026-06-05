@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register — VoteSecure</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .auth-card.wide { max-width: 540px; }
+
+        /* Make sure error borders are visible */
+        .input-wrap input.error,
+        .input-wrap select.error {
+            border-color: #e53935 !important;
+            box-shadow: 0 0 0 3px rgba(229,57,53,0.12) !important;
+        }
+
+        /* Error text colour */
+        .err { color: #e53935; font-size: 12px; margin-top: 5px; display: block; min-height: 16px; }
+
+        /* Demo info banner */
+        .demo-note {
+            background: #e8f4fd;
+            border-left: 4px solid #1565c0;
+            border-radius: 0 6px 6px 0;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #1a237e;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .demo-note strong { display: block; margin-bottom: 2px; }
+    </style>
+</head>
+<body>
+<div class="auth-wrapper">
+    <div class="auth-card wide">
+
+        <div class="auth-header">
+            <div class="brand">
+                <div class="brand-icon"><i class="fas fa-vote-yea"></i></div>
+                <span class="brand-name">VoteSecure</span>
+            </div>
+            <h1>Create Account</h1>
+            <p>Register to exercise your right to vote</p>
+        </div>
+
+        <!-- Demo instructions -->
+        <div class="demo-note">
+            <strong><i class="fas fa-info-circle"></i> Demo Mode</strong>
+            OTP verification is optional — you can skip it and still create an account.
+            Use any valid format: 10-digit mobile, 10-char Voter ID (e.g. <b>ABC1234567</b>), 12-digit Aadhaar.
+        </div>
+
+        <form id="signupForm" novalidate>
+
+            <!-- Full Name -->
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <div class="input-wrap">
+                    <i class="fas fa-user i-icon"></i>
+                    <input type="text" id="fullName" placeholder="Enter your full name" autocomplete="name">
+                </div>
+                <small class="err" id="fullNameErr"></small>
+            </div>
+
+            <!-- Mobile + OTP -->
+            <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <div class="input-wrap">
+                    <i class="fas fa-mobile-alt i-icon"></i>
+                    <input type="tel" id="mobile" placeholder="10-digit mobile number" maxlength="10" autocomplete="tel">
+                    <button type="button" class="inline-btn" id="sendOtpBtn">Send OTP</button>
+                </div>
+                <small class="err" id="mobileErr"></small>
+            </div>
+
+            <div class="form-group" id="otpGroup" style="display:none">
+                <label for="otp">OTP Verification</label>
+                <div class="input-wrap">
+                    <i class="fas fa-key i-icon"></i>
+                    <input type="text" id="otp" placeholder="Enter the 6-digit OTP" maxlength="6">
+                    <button type="button" class="inline-btn" id="verifyOtpBtn">Verify</button>
+                </div>
+                <small class="err" id="otpErr"></small>
+                <small class="ok hidden" id="otpOk"><i class="fas fa-check-circle"></i> Mobile verified!</small>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-wrap">
+                    <i class="fas fa-envelope i-icon"></i>
+                    <input type="email" id="email" placeholder="Enter your email" autocomplete="email">
+                </div>
+                <small class="err" id="emailErr"></small>
+            </div>
+
+            <!-- Voter ID -->
+            <div class="form-group">
+                <label for="voterId">Voter ID</label>
+                <div class="input-wrap">
+                    <i class="fas fa-id-card i-icon"></i>
+                    <input type="text" id="voterId" placeholder="10-character alphanumeric ID" maxlength="10" autocomplete="off" style="text-transform:uppercase">
+                </div>
+                <small class="err" id="voterIdErr"></small>
+            </div>
+
+            <!-- Aadhaar -->
+            <div class="form-group">
+                <label for="aadhar">Aadhaar Number</label>
+                <div class="input-wrap">
+                    <i class="fas fa-id-badge i-icon"></i>
+                    <input type="text" id="aadhar" placeholder="12-digit Aadhaar number" maxlength="12" autocomplete="off">
+                </div>
+                <small class="err" id="aadharErr"></small>
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <div class="input-wrap">
+                    <i class="fas fa-calendar-alt i-icon"></i>
+                    <input type="date" id="dob" autocomplete="bday">
+                </div>
+                <small class="err" id="dobErr"></small>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-wrap">
+                    <i class="fas fa-lock i-icon"></i>
+                    <input type="password" id="password" placeholder="Create a strong password">
+                    <i class="fas fa-eye-slash toggle-eye" id="togglePwd"></i>
+                </div>
+                <div class="strength-bar"><div class="fill" id="strengthFill"></div></div>
+                <small class="hint">Min. 8 chars with uppercase, number and special character.</small>
+                <small class="err" id="passwordErr"></small>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <div class="input-wrap">
+                    <i class="fas fa-lock i-icon"></i>
+                    <input type="password" id="confirmPassword" placeholder="Re-enter your password">
+                    <i class="fas fa-eye-slash toggle-eye" id="toggleConfirm"></i>
+                </div>
+                <small class="err" id="confirmErr"></small>
+            </div>
+
+            <!-- Terms -->
+            <div class="form-group">
+                <div class="check-row">
+                    <input type="checkbox" id="terms">
+                    <label for="terms">
+                        I agree to the <a href="#" class="link">Terms &amp; Conditions</a> and confirm that all information provided is accurate.
+                    </label>
+                </div>
+                <small class="err" id="termsErr"></small>
+            </div>
+
+            <button type="submit" class="btn-primary">
+                <i class="fas fa-user-plus" style="margin-right:6px"></i>Create Account
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="login.html" class="link">Login</a>
+        </div>
+    </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script src="signup.js"></script>
+</body>
+</html>

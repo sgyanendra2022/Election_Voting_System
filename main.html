@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — VoteSecure</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <a href="index.html" class="nav-brand">
+        <div class="brand-icon"><i class="fas fa-vote-yea"></i></div>
+        <span>VoteSecure</span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+        <li><a href="main.html" class="active">Home</a></li>
+        <li><a href="#parties">Parties</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#" id="aboutNavBtn">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <div class="nav-actions" id="navActions">
+        <!-- filled by JS -->
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+    <div class="ticker-inner">
+        <span class="ticker-label">Live</span>
+        <span class="ticker-content" id="tickerText">Elections 2025 — Cast your vote before June 10!</span>
+    </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="election-badge">
+            <span class="dot"></span>
+            Elections 2025 — Active
+        </div>
+        <h1 id="heroGreeting">Welcome to <span>VoteSecure</span></h1>
+        <p id="heroSub">Secure, transparent, and easy voting for every eligible citizen.</p>
+        <div class="hero-actions" id="heroActions">
+            <!-- filled by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+    <div class="stat-item">
+        <span class="stat-num">9,12,47,832</span>
+        <span class="stat-label">Registered Voters</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-num" id="statVotes">2,45,18,901</span>
+        <span class="stat-label">Votes Cast</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-num">4</span>
+        <span class="stat-label">Parties</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-num" id="countdown">--</span>
+        <span class="stat-label">Days Remaining</span>
+    </div>
+</div>
+
+<!-- PARTIES -->
+<section class="parties-section" id="parties">
+    <div class="section-title">
+        <h2>Participating Parties</h2>
+        <p>Learn about the parties contesting in Elections 2025</p>
+        <div class="underline"></div>
+    </div>
+    <div class="parties-grid" id="mainPartyGrid">
+        <!-- logos injected by logos.js -->
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+    <div class="section-title">
+        <h2>How It Works</h2>
+        <p>Simple, secure, and transparent in 4 easy steps</p>
+        <div class="underline"></div>
+    </div>
+    <div class="steps-grid">
+        <div class="step-item">
+            <div class="step-num">1</div>
+            <h3>Register</h3>
+            <p>Sign up with your Voter ID, Aadhaar, and mobile for OTP verification.</p>
+        </div>
+        <div class="step-item">
+            <div class="step-num">2</div>
+            <h3>Login</h3>
+            <p>Log in securely with your email and password during election period.</p>
+        </div>
+        <div class="step-item">
+            <div class="step-num">3</div>
+            <h3>Vote</h3>
+            <p>Select your preferred party, review your choice and confirm.</p>
+        </div>
+        <div class="step-item">
+            <div class="step-num">4</div>
+            <h3>Done</h3>
+            <p>Receive a secure vote receipt. Your vote is recorded permanently.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer" id="contact">
+    <div class="footer-grid">
+        <div class="footer-col">
+            <h4>VoteSecure</h4>
+            <p>A secure digital voting platform for the citizens of India. Your vote matters.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Register</a></li>
+                <li><a href="vote.html">Vote</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Help</h4>
+            <ul>
+                <li><a href="forgot-password.html">Forgot Password</a></li>
+                <li><a href="#how">How to Vote</a></li>
+                <li><a href="#">Voter Helpline</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <ul>
+                <li><a href="mailto:support@votesecure.in">support@votesecure.in</a></li>
+                <li><a href="#">1800-111-VOTE (Toll Free)</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2025 VoteSecure — Government Election Voting Portal. All Rights Reserved.
+    </div>
+</footer>
+
+<!-- ABOUT MODAL -->
+<div class="modal-overlay" id="aboutModal">
+    <div class="modal-box">
+        <button class="modal-close" id="closeAboutModal">&times;</button>
+        <h2>About Elections &amp; Voting</h2>
+        <p style="color:#666;font-size:14px;margin-bottom:16px">Elections are the cornerstone of democratic governance:</p>
+        <ul>
+            <li><strong>Representation:</strong> Voters select leaders who represent their interests.</li>
+            <li><strong>Accountability:</strong> Regular elections keep leaders answerable to the public.</li>
+            <li><strong>Legitimacy:</strong> Free and fair elections give government its authority.</li>
+            <li><strong>Choice:</strong> Voters decide between different policies, parties, and candidates.</li>
+            <li><strong>Participation:</strong> Voting is direct civic engagement in democracy.</li>
+        </ul>
+        <p style="margin-top:16px;font-size:13px;color:#666">Your vote matters and shapes the future of your community and nation.</p>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast-container"></div>
+
+<script src="logos.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

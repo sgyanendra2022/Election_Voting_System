@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Results — VoteSecure</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .results-page {
+            max-width: 860px;
+            margin: 50px auto;
+            padding: 0 20px 60px;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .results-header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .results-header p { color: var(--muted); font-size: 15px; }
+
+        .results-header .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fce4e4;
+            border: 1px solid #e57373;
+            color: #c62828;
+            border-radius: 20px;
+            padding: 5px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .results-header .live-badge .dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #c62828;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+            0%,100% { opacity:1; transform:scale(1); }
+            50%      { opacity:0.4; transform:scale(1.5); }
+        }
+
+        /* Result cards */
+        .result-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0,0,0,.08);
+            padding: 22px 28px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .result-card:hover { transform: translateY(-2px); }
+
+        .result-card.leading {
+            border-left: 5px solid #2e7d32;
+        }
+
+        .result-card.tied {
+            border-left: 5px solid #f57f17;
+        }
+
+        .result-card .rank {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #f0f4fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .result-card.leading .rank {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .result-card.tied .rank {
+            background: #fff8e1;
+            color: #f57f17;
+        }
+
+        .result-card img {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 2px solid #eee;
+            padding: 5px;
+            background: #fff;
+            flex-shrink: 0;
+        }
+
+        .result-info { flex: 1; min-width: 0; }
+
+        .result-info .party-name {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .result-info .party-full {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .result-bar-wrap { flex: 2; }
+
+        .result-bar-track {
+            background: #f0f0f0;
+            border-radius: 6px;
+            height: 16px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+
+        .result-bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            background: linear-gradient(90deg, var(--blue-mid), var(--primary));
+            transition: width 1s ease;
+        }
+
+        .result-card.leading .result-bar-fill {
+            background: linear-gradient(90deg, #43a047, #2e7d32);
+        }
+
+        .result-card.tied .result-bar-fill {
+            background: linear-gradient(90deg, #ffb300, #f57f17);
+        }
+
+        .result-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+
+        .result-meta .votes-count { font-weight: 700; color: var(--text); }
+        .result-meta .percent     { color: var(--muted); font-weight: 600; }
+
+        .leading-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* Summary box */
+        .summary-box {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0,0,0,.08);
+            padding: 24px 28px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .summary-box .s-item { text-align: center; }
+        .summary-box .s-num  { font-size: 26px; font-weight: 800; color: var(--primary); display: block; }
+        .summary-box .s-lbl  { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .no-votes {
+            background: #fff;
+            border-radius: 12px;
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--muted);
+            box-shadow: 0 4px 18px rgba(0,0,0,.08);
+        }
+
+        .no-votes i { font-size: 48px; margin-bottom: 16px; color: #ccc; display: block; }
+        .no-votes h3 { font-size: 18px; color: var(--primary); margin-bottom: 8px; }
+
+        .btn-home {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 11px 28px;
+            background: var(--blue-mid);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn-home:hover { background: var(--primary); }
+
+        .refresh-note {
+            text-align: center;
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .result-card { flex-wrap: wrap; }
+            .result-bar-wrap { flex: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <a href="main.html" class="nav-brand">
+        <div class="brand-icon"><i class="fas fa-vote-yea"></i></div>
+        <span>VoteSecure</span>
+    </a>
+
+    <ul class="nav-links">
+        <li><a href="main.html">Home</a></li>
+        <li><a href="vote.html">Vote</a></li>
+        <li><a href="results.html" class="active">Results</a></li>
+    </ul>
+
+    <div class="nav-actions" id="navActions">
+        <!-- filled by JS -->
+    </div>
+</nav>
+
+<!-- RESULTS PAGE -->
+<main class="results-page">
+
+    <div class="results-header">
+        <div class="live-badge"><span class="dot"></span> LIVE RESULTS</div>
+        <h1>General Election 2025</h1>
+        <p>Real-time vote tally — results update as votes are cast.</p>
+    </div>
+
+    <div class="summary-box" id="summaryBox">
+        <div class="s-item">
+            <span class="s-num" id="totalVotes">0</span>
+            <span class="s-lbl">Total Votes</span>
+        </div>
+        <div class="s-item">
+            <span class="s-num" id="leadingParty">--</span>
+            <span class="s-lbl">Currently Leading</span>
+        </div>
+        <div class="s-item">
+            <span class="s-num" id="leadingPct">0%</span>
+            <span class="s-lbl">Leading Share</span>
+        </div>
+        <div class="s-item">
+            <span class="s-num" id="validVotes">0</span>
+            <span class="s-lbl">Registered Voters</span>
+        </div>
+    </div>
+
+    <div id="resultsContainer">
+        <!-- filled by JS -->
+    </div>
+
+    <div class="refresh-note">
+        <i class="fas fa-sync-alt" style="margin-right:4px"></i>
+        Results refresh automatically every 10 seconds.
+    </div>
+
+    <div style="text-align:center;margin-top:30px">
+        <a href="main.html" class="btn-home">
+            <i class="fas fa-home" style="margin-right:6px"></i>Go to Dashboard
+        </a>
+    </div>
+
+</main>
+
+<footer class="site-footer">
+    &copy; 2025 VoteSecure — Government Election Voting Portal. All Rights Reserved.
+</footer>
+
+<div id="toast-container"></div>
+
+<script src="logos.js"></script>
+<script>
+    // ===== AUTH =====
+    function getUser() {
+        try { return JSON.parse(localStorage.getItem('evs_session')); } catch { return null; }
+    }
+
+    function logout() {
+        localStorage.removeItem('evs_session');
+        window.location.href = 'index.html';
+    }
+
+    const user = getUser();
+
+    const navActions = document.getElementById('navActions');
+    if (navActions) {
+        if (user) {
+            navActions.innerHTML = `
+                <div class="user-pill"><i class="fas fa-user"></i> ${user.name.split(' ')[0]}</div>
+                <button class="btn-nav-outline" onclick="logout()">Logout</button>
+            `;
+        } else {
+            navActions.innerHTML = `
+                <a href="login.html" class="btn-nav-outline">Login</a>
+                <a href="signup.html" class="btn-nav-accent">Sign Up</a>
+            `;
+        }
+    }
+
+    // ===== PARTY DATA =====
+    const parties = [
+        { key: 'BJP',      name: 'BJP',  full: 'Bharatiya Janata Party'   },
+        { key: 'Congress', name: 'INC',  full: 'Indian National Congress'  },
+        { key: 'AAP',      name: 'AAP',  full: 'Aam Aadmi Party'           },
+        { key: 'SP',       name: 'SP',   full: 'Samajwadi Party'            },
+        { key: 'NOTA',     name: 'NOTA', full: 'None of the Above'          }
+    ];
+
+    function getLogo(key) {
+        return (typeof PARTY_LOGOS !== 'undefined' && PARTY_LOGOS[key]) ? PARTY_LOGOS[key] : '';
+    }
+
+    function renderResults() {
+        const tally = JSON.parse(localStorage.getItem('evs_votes') || '{}');
+        const users = JSON.parse(localStorage.getItem('evs_users') || '[]');
+
+        // Build ranked list with actual vote counts
+        const ranked = parties
+            .map(p => ({ ...p, votes: tally[p.key] || 0 }))
+            .sort((a, b) => {
+                // Primary: descending vote count
+                if (b.votes !== a.votes) return b.votes - a.votes;
+                // Tie-break: alphabetical by name so order is deterministic
+                return a.name.localeCompare(b.name);
+            });
+
+        const total = ranked.reduce((sum, p) => sum + p.votes, 0);
+
+        document.getElementById('totalVotes').textContent = total.toLocaleString('en-IN');
+        document.getElementById('validVotes').textContent = users.length.toLocaleString('en-IN');
+
+        const container = document.getElementById('resultsContainer');
+
+        if (total === 0) {
+            container.innerHTML = `
+                <div class="no-votes">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>No Votes Cast Yet</h3>
+                    <p>Be the first to vote! Results will appear here as votes come in.</p>
+                    <a href="vote.html" class="btn-home"><i class="fas fa-vote-yea" style="margin-right:6px"></i>Cast Your Vote</a>
+                </div>
+            `;
+            document.getElementById('leadingParty').textContent = '--';
+            document.getElementById('leadingPct').textContent   = '0%';
+            return;
+        }
+
+        // Determine leader — only "leading" if strictly more votes than everyone else
+        const maxVotes  = ranked[0].votes;
+        const topTied   = ranked.filter(p => p.votes === maxVotes);
+        const isTie     = topTied.length > 1;
+
+        if (isTie) {
+            document.getElementById('leadingParty').textContent = 'Tied';
+            document.getElementById('leadingPct').textContent   =
+                ((maxVotes / total) * 100).toFixed(1) + '% each';
+        } else {
+            document.getElementById('leadingParty').textContent = ranked[0].name;
+            document.getElementById('leadingPct').textContent   =
+                ((maxVotes / total) * 100).toFixed(1) + '%';
+        }
+
+        container.innerHTML = ranked.map((p, i) => {
+            const pct       = total > 0 ? ((p.votes / total) * 100).toFixed(1) : '0.0';
+            // A party is "leading" only if it has strictly more votes than the rest
+            const isLeading = !isTie && i === 0 && p.votes > 0;
+            const isTied    = isTie && p.votes === maxVotes && p.votes > 0;
+
+            let badgeHtml = '';
+            if (isLeading) badgeHtml = '<span class="leading-badge"><i class="fas fa-trophy"></i> Leading</span>';
+            else if (isTied) badgeHtml = '<span class="leading-badge" style="background:#fff8e1;color:#f57f17"><i class="fas fa-equals"></i> Tied</span>';
+
+            return `
+                <div class="result-card ${isLeading ? 'leading' : isTied ? 'tied' : ''}">
+                    <div class="rank">${i + 1}</div>
+                    <img src="${getLogo(p.key)}" alt="${p.name}">
+                    <div class="result-info">
+                        <div class="party-name">${p.name}</div>
+                        <div class="party-full">${p.full}</div>
+                    </div>
+                    <div class="result-bar-wrap">
+                        <div class="result-bar-track">
+                            <div class="result-bar-fill" style="width:${pct}%"></div>
+                        </div>
+                        <div class="result-meta">
+                            <span class="votes-count">${p.votes.toLocaleString('en-IN')} vote${p.votes !== 1 ? 's' : ''}</span>
+                            <span class="percent">${pct}%</span>
+                        </div>
+                    </div>
+                    ${badgeHtml}
+                </div>
+            `;
+        }).join('');
+    }
+
+    renderResults();
+    setInterval(renderResults, 10000);
+</script>
+
+</body>
+</html>

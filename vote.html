@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cast Your Vote — VoteSecure</title>
+    <link rel="stylesheet" href="vote.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <a href="main.html" class="nav-brand">
+        <div class="brand-icon"><i class="fas fa-vote-yea"></i></div>
+        <span>VoteSecure</span>
+    </a>
+
+    <ul class="nav-links">
+        <li><a href="main.html">Home</a></li>
+        <li><a href="#" id="currentVoterLink">My Account</a></li>
+    </ul>
+
+    <div class="nav-user" id="navUser">
+        <!-- filled by JS -->
+    </div>
+</nav>
+
+<!-- VOTE PAGE -->
+<main class="vote-page">
+
+    <!-- PROGRESS TRACKER -->
+    <div class="progress-track">
+        <div class="prog-step active" id="ps1">
+            <div class="circle" id="pc1">1</div>
+            <span class="label">Select Party</span>
+        </div>
+        <div class="prog-line" id="pl1"></div>
+        <div class="prog-step" id="ps2">
+            <div class="circle" id="pc2">2</div>
+            <span class="label">Confirm</span>
+        </div>
+        <div class="prog-line" id="pl2"></div>
+        <div class="prog-step" id="ps3">
+            <div class="circle" id="pc3">3</div>
+            <span class="label">Done</span>
+        </div>
+    </div>
+
+    <!-- STEP 1: SELECT PARTY -->
+    <div id="selectStep">
+        <div class="vote-card">
+            <div class="vote-card-header">
+                <h2><i class="fas fa-ballot-check" style="margin-right:8px;opacity:.8"></i>Cast Your Vote</h2>
+                <p>General Election 2025 — Select your preferred party or candidate below.</p>
+            </div>
+            <div class="vote-card-body">
+
+                <div class="vote-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Your vote is <strong>secret and secure</strong>. Once submitted, it cannot be changed. Please choose carefully.</span>
+                </div>
+
+                <form id="voteForm">
+                    <div class="party-list" id="partyList">
+
+                        <label class="party-option" id="opt-BJP">
+                            <input type="radio" name="party" value="BJP">
+                            <img class="party-logo" src="https://cdn.freelogovectors.net/wp-content/uploads/2023/05/bjp-logo-freelogovectors.net_.png" alt="BJP">
+                            <div class="party-info">
+                                <div class="party-name">BJP</div>
+                                <div class="party-full">Bharatiya Janata Party</div>
+                                <div class="party-desc">Nationalism, economic reforms, cultural heritage</div>
+                            </div>
+                        </label>
+
+                        <label class="party-option" id="opt-Congress">
+                            <input type="radio" name="party" value="Congress">
+                            <img class="party-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Indian_National_Congress_logo.svg/1200px-Indian_National_Congress_logo.svg.png" alt="Congress">
+                            <div class="party-info">
+                                <div class="party-name">INC</div>
+                                <div class="party-full">Indian National Congress</div>
+                                <div class="party-desc">Democracy, secularism, social justice</div>
+                            </div>
+                        </label>
+
+                        <label class="party-option" id="opt-AAP">
+                            <input type="radio" name="party" value="AAP">
+                            <img class="party-logo" src="https://akm-img-a-in.tosshub.com/indiatoday/images/author/aap%20logo_0-profile_image_one_to_one.jpg?VersionId=a7fvVLPjItzc3ECXxx4SHN0vpVVHAHPJ" alt="AAP">
+                            <div class="party-info">
+                                <div class="party-name">AAP</div>
+                                <div class="party-full">Aam Aadmi Party</div>
+                                <div class="party-desc">Anti-corruption, governance transparency</div>
+                            </div>
+                        </label>
+
+                        <label class="party-option" id="opt-SP">
+                            <input type="radio" name="party" value="SP">
+                            <img class="party-logo" src="https://allpngfree.com/apf-prod-storage-api/storage/thumbnails/samajwadi-party-logo-png-images-thumbnail-1647365351.jpg" alt="SP">
+                            <div class="party-info">
+                                <div class="party-name">SP</div>
+                                <div class="party-full">Samajwadi Party</div>
+                                <div class="party-desc">Equality, socialist welfare programs</div>
+                            </div>
+                        </label>
+
+                        <label class="party-option nota-option" id="opt-NOTA">
+                            <input type="radio" name="party" value="NOTA">
+                            <img class="party-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/NOTA_logo_India.svg/1200px-NOTA_logo_India.svg.png" alt="NOTA">
+                            <div class="party-info">
+                                <div class="party-name">NOTA</div>
+                                <div class="party-full">None of the Above</div>
+                                <div class="party-desc">Exercise your right to reject all candidates</div>
+                            </div>
+                        </label>
+
+                    </div>
+
+                    <p id="selectErr" style="color:#c62828;font-size:13px;margin-bottom:14px;display:none">
+                        <i class="fas fa-exclamation-circle"></i> Please select a party before proceeding.
+                    </p>
+
+                    <button type="submit" class="btn-vote">
+                        <i class="fas fa-arrow-right" style="margin-right:8px"></i>Proceed to Confirmation
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 2: CONFIRM -->
+    <div id="confirmStep">
+        <div class="confirm-card">
+            <div class="confirm-header">
+                <h2><i class="fas fa-exclamation-triangle" style="margin-right:8px"></i>Confirm Your Vote</h2>
+                <p>Please review your selection carefully before final submission.</p>
+            </div>
+            <div class="confirm-body">
+
+                <div class="confirm-party-display" id="confirmDisplay">
+                    <!-- filled by JS -->
+                </div>
+
+                <div class="confirm-warning">
+                    <i class="fas fa-exclamation-circle" style="font-size:16px;flex-shrink:0;margin-top:1px"></i>
+                    <span>This action is <strong>irreversible</strong>. Once submitted, your vote cannot be changed or withdrawn.</span>
+                </div>
+
+                <div class="confirm-actions">
+                    <button class="btn-back" id="backBtn">
+                        <i class="fas fa-arrow-left" style="margin-right:6px"></i>Change Selection
+                    </button>
+                    <button class="btn-confirm" id="finalSubmitBtn">
+                        <i class="fas fa-check" style="margin-right:6px"></i>Submit My Vote
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 3: SUCCESS -->
+    <div id="successStep">
+        <div class="success-card">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2>Vote Cast Successfully!</h2>
+            <p>Your vote has been recorded securely. Thank you for participating!</p>
+            <p style="font-size:13px;color:#aaa">India thanks you for exercising your democratic right.</p>
+
+            <div class="receipt-box" id="voteReceipt">
+                <!-- filled by JS -->
+            </div>
+
+            <a href="results.html" class="btn-home">
+                <i class="fas fa-chart-bar" style="margin-right:6px"></i>View Live Results
+            </a>
+            &nbsp;
+            <a href="main.html" class="btn-home" style="background:#555">
+                <i class="fas fa-home" style="margin-right:6px"></i>Go Home
+            </a>
+        </div>
+    </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    &copy; 2025 VoteSecure — Government Election Voting Portal. All Rights Reserved.
+</footer>
+
+<!-- TOAST -->
+<div id="toast-container"></div>
+
+        <script src="logos.js"></script>
+        <script src="vote.js"></script>
+        <script>
+        // Inject party options using embedded SVGs
+        const voteParties = [
+            { value:'BJP',      name:'BJP',  full:'Bharatiya Janata Party',   desc:'Nationalism, economic reforms, cultural heritage' },
+            { value:'Congress', name:'INC',  full:'Indian National Congress',  desc:'Democracy, secularism, social justice' },
+            { value:'AAP',      name:'AAP',  full:'Aam Aadmi Party',            desc:'Anti-corruption, governance transparency' },
+            { value:'SP',       name:'SP',   full:'Samajwadi Party',             desc:'Equality, socialist welfare programs' },
+            { value:'NOTA',     name:'NOTA', full:'None of the Above',           desc:'Exercise your right to reject all candidates', nota:true }
+        ];
+        document.getElementById('partyList').innerHTML = voteParties.map(p => `
+            <label class="party-option${p.nota ? ' nota-option' : ''}" id="opt-${p.value}">
+                <input type="radio" name="party" value="${p.value}">
+                <img class="party-logo" src="${PARTY_LOGOS[p.value] || PARTY_LOGOS.NOTA}" alt="${p.name}">
+                <div class="party-info">
+                    <div class="party-name">${p.name}</div>
+                    <div class="party-full">${p.full}</div>
+                    <div class="party-desc">${p.desc}</div>
+                </div>
+            </label>
+        `).join('');
+
+        // Re-attach click highlight after injecting
+        document.querySelectorAll('.party-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('.party-option').forEach(o => {
+                    o.classList.remove('selected');
+                    const b = o.querySelector('.selected-badge');
+                    if (b) b.remove();
+                });
+                opt.classList.add('selected');
+                const badge = document.createElement('span');
+                badge.className = 'selected-badge';
+                badge.textContent = 'Selected';
+                opt.appendChild(badge);
+            });
+        });
+        </script>
+</body>
+</html>
